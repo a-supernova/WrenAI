@@ -3,7 +3,7 @@
   "version": "0.27.5",
   "private": true,
   "scripts": {
-    "dev": "TZ=UTC next dev",
+    "dev": "TZ=UTC next dev -H 0.0.0.0 -p 3000",
     "build": "NODE_OPTIONS=--max-old-space-size=8192 next build",
     "start": "TZ=UTC next start",
     "lint": "yarn check-types && next lint",
