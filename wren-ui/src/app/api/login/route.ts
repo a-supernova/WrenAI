@@ -2,7 +2,7 @@ import { createSession } from '../../../lib/auth';
 import { cookies } from "next/headers";
 
 const users = [
-  { email: 'cashmind@auvp.com.br', password: 'ASNDO832q9rhd()fAO#HSD!F089fr08hf' } // Example hashed password
+  { email: 'cashmind@auvp.com.br', password: process.env.PASSWORD_SECRET }
 ];
 
 export async function POST(req: Request) {
@@ -11,11 +11,11 @@ export async function POST(req: Request) {
   // Find user by email
   const user = users.find((user) => user.email === email);
   if (!user) {
-    return Response.json({ message: 'User not found' });
+    return Response.json({ message: 'User not found' }, { status: 401 });
   }
   // Compare password
   if (user.password != password) {
-    return Response.json({ message: 'Invalid credentials' });
+    return Response.json({ message: 'Invalid credentials' }, { status: 401 });
   }
 
   // Create a JWT token

@@ -1,6 +1,7 @@
 "use client"
 
 import axios from 'axios';
+import { redirect } from 'next/navigation';
 import { useState } from 'react';
    
 export default function SignupForm() {
@@ -12,7 +13,8 @@ export default function SignupForm() {
     e.preventDefault();
     try {
       const { data } = await axios.post('/api/login', { email, password });
-      localStorage.setItem('session', data.token);
+      //localStorage.setItem('session', data.token);
+      redirect("/home/dashboard")
     } catch (err) {
       console.error(err);
       alert('Invalid credentials');
