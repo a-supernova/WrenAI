@@ -1,7 +1,12 @@
 {
   "compilerOptions": {
     "target": "es2015",
-    "lib": ["es2017", "dom", "dom.iterable", "esnext"],
+    "lib": [
+      "es2017",
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
@@ -23,11 +28,25 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"],
-      "@server": ["./src/apollo/server/index.ts"],
-      "@server/*": ["./src/apollo/server/*"],
-    }
+      "@/*": [
+        "./src/*"
+      ],
+      "@server": [
+        "./src/apollo/server/index.ts"
+      ],
+      "@server/*": [
+        "./src/apollo/server/*"
+      ]
+    },
+    "strictNullChecks": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
