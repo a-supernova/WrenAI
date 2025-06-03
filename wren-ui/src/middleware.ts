@@ -1,10 +1,18 @@
 import type { NextRequest } from 'next/server'
+import { decrypt } from './lib/auth';
  
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const currentUser = request.cookies.get('session')?.value
  
-  if (currentUser && !request.nextUrl.pathname.startsWith('/home/dashboard')) {
-    return Response.redirect(new URL('/home/dashboard', request.url))
+  if (currentUser) {
+    try {
+      let sessionDecrypted = await decrypt(currentUser);
+      if(!sessionDecrypted) {
+        throw new Error("Invalid session!");
+      }
+    } catch(e) {
+      return Response.redirect(new URL('/login', request.url))  
+    }
   }
  
   if (!currentUser && !request.nextUrl.pathname.startsWith('/login')) {

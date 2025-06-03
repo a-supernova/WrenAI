@@ -10,6 +10,7 @@ import Modeling, { Props as ModelingSidebarProps } from './Modeling';
 import Knowledge from './Knowledge';
 import APIManagement from './APIManagement';
 import LearningSection from '@/components/learning';
+import axios from 'axios';
 
 const Layout = styled.div`
   position: relative;
@@ -83,6 +84,11 @@ export default function Sidebar(props: Props) {
     event.target.blur();
   };
 
+  const onLogout = async (event) => {
+    await axios.get("/api/logout");
+    window.location.href = "/login";
+  };
+
   return (
     <Layout className="d-flex flex-column">
       <DynamicSidebar {...props} pathname={router.pathname} />
@@ -91,6 +97,10 @@ export default function Sidebar(props: Props) {
         <StyledButton type="text" block onClick={onSettingsClick}>
           <SettingOutlined className="text-md" />
           Settings
+        </StyledButton>
+        <StyledButton type="text" block onClick={onLogout}>
+          <DiscordIcon className="text-md" />
+          Logout
         </StyledButton>
       </div>
     </Layout>
