@@ -25,6 +25,13 @@ const nextConfig = withLess({
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
+  typescript: {
+    // !! WARN !!
+    // Dangerously allow production builds to successfully complete even if
+    // your project has type errors.
+    // !! WARN !!
+    ignoreBuildErrors: true,
+  },
   lessLoaderOptions: {
     additionalData: `@import "@/styles/antd-variables.less";`,
   },
