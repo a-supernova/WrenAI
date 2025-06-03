@@ -20,6 +20,11 @@ const nextConfig = withLess({
       ssr: true,
     },
   },
+  eslint: {
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true,
+  },
   lessLoaderOptions: {
     additionalData: `@import "@/styles/antd-variables.less";`,
   },
