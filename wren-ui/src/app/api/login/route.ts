@@ -1,7 +1,7 @@
 import { createSession } from '../../../lib/auth';
 
 const users = [
-  { email: 'cashmind@auvp.com.br', password: process.env.PASSWORD_SECRET }
+  { email: 'cashmind@asupernova.com.br', password: process.env.PASSWORD_SECRET }
 ];
 
 export async function POST(req: Request) {

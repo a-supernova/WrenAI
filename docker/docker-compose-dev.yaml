@@ -37,6 +37,8 @@ services:
     image: ghcr.io/canner/wren-ai-service:${WREN_AI_SERVICE_VERSION}
     pull_policy: always
     platform: ${PLATFORM}
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
     ports:
       - ${AI_SERVICE_FORWARD_PORT}:${WREN_AI_SERVICE_PORT}
     environment:
