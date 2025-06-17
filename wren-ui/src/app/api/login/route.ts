@@ -1,18 +1,16 @@
 import { createSession } from '../../../lib/auth';
-
-const users = [
-  { email: 'cashmind@asupernova.com.br', password: process.env.PASSWORD_SECRET }
-];
+import { UserRepository } from '../repository/user.repository';
 
 export async function POST(req: Request) {
   const { email, password } = await req.json();
 
-  const user = users.find((user) => user.email === email);
-  if (!user) {
-    return Response.json({ message: 'User not found' }, { status: 401 });
+  if (!email || !password) {
+    return Response.json({ message: 'Email and password are required' }, { status: 400 });
   }
 
-  if (user.password != password) {
+  const userRepository = new UserRepository();
+  const user = await userRepository.findByEmailPassword(email, password);
+  if (!user) {
     return Response.json({ message: 'Invalid credentials' }, { status: 401 });
   }
 

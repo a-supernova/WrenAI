@@ -9,6 +9,7 @@ export const bootstrapKnex = (options: KnexOptions) => {
   if (options.dbType === 'pg') {
     const { pgUrl, debug } = options;
     console.log('using pg');
+    console.log("VEIO");
     /* eslint-disable @typescript-eslint/no-var-requires */
     return require('knex')({
       client: 'pg',

@@ -379,7 +379,7 @@ export class AskingResolver {
     _args: any,
     ctx: IContext,
   ): Promise<Thread[]> {
-    const threads = await ctx.askingService.listThreads();
+    const threads = await ctx.askingService.listThreads(ctx.askingService.userId);
     return threads;
   }
 

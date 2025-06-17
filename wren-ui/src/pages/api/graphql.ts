@@ -27,7 +27,7 @@ export const config: PageConfig = {
   },
 };
 
-const bootstrapServer = async () => {
+const bootstrapServer = async (userId: number) => {
   const {
     telemetry,
 
@@ -81,7 +81,7 @@ const bootstrapServer = async () => {
 
   // initialize services
   await Promise.all([
-    askingService.initialize(),
+    askingService.initialize(userId),
     projectRecommendQuestionBackgroundTracker.initialize(),
     threadRecommendQuestionBackgroundTracker.initialize(),
   ]);
@@ -168,9 +168,8 @@ const bootstrapServer = async () => {
   return apolloServer;
 };
 
-const startServer = bootstrapServer();
-
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  const startServer = bootstrapServer(2);
   const apolloServer = await startServer;
   await apolloServer.createHandler({
     path: '/api/graphql',

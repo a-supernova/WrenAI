@@ -27,7 +27,7 @@ export interface Thread {
 }
 
 export interface IThreadRepository extends IBasicRepository<Thread> {
-  listAllTimeDescOrder(projectId: number): Promise<Thread[]>;
+  listAllTimeDescOrder(projectId: number, userId: number): Promise<Thread[]>;
 }
 
 export class ThreadRepository
@@ -40,9 +40,10 @@ export class ThreadRepository
     super({ knexPg, tableName: 'thread' });
   }
 
-  public async listAllTimeDescOrder(projectId: number): Promise<Thread[]> {
+  public async listAllTimeDescOrder(projectId: number, userId: number): Promise<Thread[]> {
     const threads = await this.knex(this.tableName)
       .where(this.transformToDBData({ projectId }))
+      .where('user_id', userId)
       .orderBy('created_at', 'desc');
     return threads.map((thread) => this.transformFromDBData(thread));
   }

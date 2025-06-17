@@ -113,6 +113,7 @@ export interface AdjustmentSqlInput {
 }
 
 export interface IAskingService {
+  userId: number;
   /**
    * Asking task.
    */
@@ -145,7 +146,7 @@ export interface IAskingService {
     input: Partial<AskingDetailTaskUpdateInput>,
   ): Promise<Thread>;
   deleteThread(threadId: number): Promise<void>;
-  listThreads(): Promise<Thread[]>;
+  listThreads(userId: number): Promise<Thread[]>;
   createThreadResponse(
     input: AskingDetailTaskInput,
     threadId: number,
@@ -399,6 +400,7 @@ class BreakdownBackgroundTracker {
 }
 
 export class AskingService implements IAskingService {
+  userId: number;
   private wrenAIAdaptor: IWrenAIAdaptor;
   private deployService: IDeployService;
   private projectService: IProjectService;
@@ -562,7 +564,8 @@ export class AskingService implements IAskingService {
     return;
   }
 
-  public async initialize() {
+  public async initialize(userId: number) {
+    this.userId = userId;
     // list thread responses from database
     // filter status not finalized and put them into background tracker
     const threadResponses = await this.threadResponseRepository.findAll();
@@ -706,9 +709,9 @@ export class AskingService implements IAskingService {
     return thread;
   }
 
-  public async listThreads(): Promise<Thread[]> {
+  public async listThreads(userId: number): Promise<Thread[]> {
     const { id } = await this.projectService.getCurrentProject();
-    return await this.threadRepository.listAllTimeDescOrder(id);
+    return await this.threadRepository.listAllTimeDescOrder(id, userId);
   }
 
   public async updateThread(
