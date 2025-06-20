@@ -23,4 +23,22 @@ export class UserRepository {
       return undefined;
     }
   }
+
+  async findOrCreateUser(ssoId: string, email: string) {
+    let user = await this.knex('user').where({ email }).first();
+    if(!user) {
+      await this.knex('user').insert({
+        sso_id: ssoId,
+        email: email,
+        enabled: true,
+      })
+    }
+
+    user = await this.knex('user').where({ email }).first();
+    if(!user || !user.enabled) {
+      return undefined;
+    }
+
+    return user;
+  }
 }

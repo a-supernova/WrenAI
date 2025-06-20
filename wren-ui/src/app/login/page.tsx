@@ -22,8 +22,8 @@ export default function SignupForm() {
   };
 
   const loginAuvp = async () => {
-    //window.location.href = "https://cashmind.asupernova.com.br/api/oauth?provider=auvp";
-    window.location.href = "https://cashmind.asupernova.com.br/api/oauth?provider=auvp";
+    //window.location.href = "https://cashmind.asupernova.com.br/api/auth?provider=auvp";
+    window.location.href = "https://cashmind.asupernova.com.br/api/auth?provider=auvp";
   }
 
   return (

@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import { redirect } from 'next/navigation';
-import { handleOAuth2Callback } from '../oauth/oauth.service';
+import { handleOAuth2Callback } from '../oauth.service';
 
 export async function GET(req: NextRequest) {
   const code = req?.nextUrl?.searchParams.get("code")

@@ -121,8 +121,8 @@ export class AuvpOAuth2Service extends OAuth2 {
       clientId,
       clientSecret,
       redirectUri,
-      authorizationUrl: 'https://sso.homolog.auvp.com.br/oidc/auth',
-      tokenUrl: 'https://sso.homolog.auvp.com.br/oidc/token',
+      authorizationUrl: 'https://sso.auvp.com.br/oidc/auth',
+      tokenUrl: 'https://sso.auvp.com.br/oidc/token',
       scope: 'openid profile email',
     });
   }
@@ -130,7 +130,7 @@ export class AuvpOAuth2Service extends OAuth2 {
     const accessTokenResponse = await this.getAccessToken(code);
 
     const info = await safeFetcher(
-      'https://sso.homolog.auvp.com.br/oidc/me',
+      'https://sso.auvp.com.br/oidc/me',
       {
         headers: {
           Authorization: `Bearer ${accessTokenResponse.access_token}`,

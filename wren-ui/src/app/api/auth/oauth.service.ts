@@ -1,5 +1,6 @@
 import { createSession } from '@/lib/auth';
 import { AuvpOAuth2Service, OAuth2 } from './utils';
+import { UserRepository } from '../repository/user.repository';
 
 export async function getOAuth2Service(provider: string | null) {
     let oAuth2Service: OAuth2 | null = null;
@@ -14,9 +15,9 @@ export async function getOAuth2Service(provider: string | null) {
       //   break;
       case 'auvp':
         oAuth2Service = new AuvpOAuth2Service(
-          'ddcb856d-e4de-4ed1-94d4-b5f925a4224e',
-          'a419bb1c-de8b-4ddc-a62c-dd268390924a',
-          `https://cashmind.asupernova.com.br/api/oauth_callback?provider=auvp`,
+          process.env.SSO_AUVP_CLIENT_ID ?? '',
+          process.env.SSO_AUVP_CLIENT_SECRET ?? '',
+          `https://cashmind.asupernova.com.br/api/auth/callback?provider=auvp`,
         );
         break;
     }
@@ -36,17 +37,12 @@ export async function handleOAuth2Callback(
 
     const userInfo = await oAuth2Service.getUserInfo(code);
 
-    // const user = await this.userService.findOrCreateUser({
-    //   name: userInfo.name,
-    //   email: userInfo.email,
-    //   picture: userInfo.picture,
-    // });
+    const userRepository = new UserRepository();
 
-    // if (!user.active) {
-    //   throw new Error('User account is not active');
-    // }
+    // @ts-ignore
+    const user = await userRepository.findOrCreateUser(userInfo.id, userInfo.email);
 
-    const token = await createSession(1, 'marcelo.fleury@asupernova.com.br');
+    const token = await createSession(user.id, user.email);
 
     return token;
 }
