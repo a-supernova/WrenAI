@@ -21,6 +21,11 @@ export default function SignupForm() {
     }
   };
 
+  const loginAuvp = async () => {
+    //window.location.href = "https://cashmind.asupernova.com.br/api/oauth?provider=auvp";
+    window.location.href = "https://cashmind.asupernova.com.br/api/oauth?provider=auvp";
+  }
+
   return (
     <div style={{
       display: 'grid',
@@ -75,6 +80,11 @@ export default function SignupForm() {
           <Form.Item>
             <Button type="primary" htmlType="submit" block>
               Entrar
+            </Button>
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" onClick={() => { loginAuvp()}} block>
+              Entrar com a AUVP
             </Button>
           </Form.Item>
         </Form>
