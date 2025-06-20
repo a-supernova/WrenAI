@@ -42,6 +42,7 @@ export interface ProjectRecommendationQuestionsResult {
   error: WrenAIError;
 }
 export interface IProjectService {
+  userId: number;
   createProject: (projectData: ProjectData) => Promise<Project>;
   updateProject: (
     projectId: number,
@@ -75,6 +76,7 @@ export interface IProjectService {
 }
 
 export class ProjectService implements IProjectService {
+  userId: number;
   private projectRepository: IProjectRepository;
   private metadataService: IDataSourceMetadataService;
   private mdlService: IMDLService;

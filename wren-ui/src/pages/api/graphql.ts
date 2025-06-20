@@ -14,6 +14,7 @@ import {
 } from '@/apollo/server/utils/error';
 import { TelemetryEvent } from '@/apollo/server/telemetry/telemetry';
 import { components } from '@/common';
+import { decrypt } from '@/lib/auth';
 
 const serverConfig = getConfig();
 const logger = getLogger('APOLLO');
@@ -67,6 +68,8 @@ const bootstrapServer = async (userId: number) => {
     threadRecommendQuestionBackgroundTracker,
     dashboardCacheBackgroundTracker,
   } = components;
+
+  projectService.userId = userId;
 
   const modelService = new ModelService({
     projectService,
@@ -169,11 +172,21 @@ const bootstrapServer = async (userId: number) => {
 };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const startServer = bootstrapServer(2);
-  const apolloServer = await startServer;
-  await apolloServer.createHandler({
-    path: '/api/graphql',
-  })(req, res);
+  const currentUser = req.cookies['session'];
+  if(currentUser) {
+     let sessionDecrypted: any = await decrypt(currentUser);
+     const startServer = bootstrapServer(sessionDecrypted.userId || 0);
+     const apolloServer = await startServer;
+     await apolloServer.createHandler({
+        path: '/api/graphql',
+     })(req, res);
+  } else {
+     const startServer = bootstrapServer(0);
+     const apolloServer = await startServer;
+     await apolloServer.createHandler({
+        path: '/api/graphql',
+     })(req, res);
+  }
 };
 
 export default cors((req: NextApiRequest, res: NextApiResponse) =>

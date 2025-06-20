@@ -24,18 +24,18 @@ export async function decrypt(session: string | undefined = '') {
   }
 }
 
-export async function createSession(userId: string) {
+export async function createSession(userId: number, userEmail: string) {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
-  const session = await encrypt({ userId, expiresAt })
+  const session = await encrypt({ userId, userEmail, expiresAt })
   const cookieStore = cookies()
- 
+
   cookieStore.set('session', session, {
     httpOnly: true,
-    secure: true,
+    secure: false,
     expires: expiresAt,
     sameSite: 'lax',
     path: '/',
-  })
+  });
 
   return session;
 }
@@ -53,7 +53,7 @@ export async function updateSession() {
   const cookieStore = cookies()
   cookieStore.set('session', session, {
     httpOnly: true,
-    secure: true,
+    secure: false,
     expires: expires,
     sameSite: 'lax',
     path: '/',

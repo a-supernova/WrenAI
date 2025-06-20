@@ -17,6 +17,7 @@ export interface ThreadRecommendationQuestionResult {
 export interface Thread {
   id: number; // ID
   projectId: number; // Reference to project.id
+  userId: number;
   summary: string; // Thread summary
 
   // recommend question

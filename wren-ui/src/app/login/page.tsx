@@ -12,6 +12,7 @@ export default function SignupForm() {
   const handleSubmit = async (e) => {
     //e.preventDefault();
     try {
+      console.log(email, password)
       await axios.post('/api/login', { email, password });
       window.location.href = "/home/dashboard";
     } catch (err) {

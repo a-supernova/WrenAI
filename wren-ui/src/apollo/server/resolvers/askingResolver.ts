@@ -277,7 +277,7 @@ export class AskingResolver {
 
     const eventName = TelemetryEvent.HOME_CREATE_THREAD;
     try {
-      const thread = await askingService.createThread(threadInput);
+      const thread = await askingService.createThread(ctx.askingService.userId, threadInput);
       ctx.telemetry.sendEvent(eventName, {});
       return thread;
     } catch (err: any) {

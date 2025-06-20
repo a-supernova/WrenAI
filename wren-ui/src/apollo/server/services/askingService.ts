@@ -140,7 +140,7 @@ export interface IAskingService {
   /**
    * Asking detail task.
    */
-  createThread(input: AskingDetailTaskInput): Promise<Thread>;
+  createThread(userId: number, input: AskingDetailTaskInput): Promise<Thread>;
   updateThread(
     threadId: number,
     input: Partial<AskingDetailTaskUpdateInput>,
@@ -680,11 +680,12 @@ export class AskingService implements IAskingService {
    * 2. create a task on AI service to generate the detail
    * 3. update the thread response with the task id
    */
-  public async createThread(input: AskingDetailTaskInput): Promise<Thread> {
+  public async createThread(userId: number, input: AskingDetailTaskInput): Promise<Thread> {
     // 1. create a thread and the first thread response
     const { id } = await this.projectService.getCurrentProject();
     const thread = await this.threadRepository.createOne({
       projectId: id,
+      userId: userId,
       summary: input.question,
     });
 

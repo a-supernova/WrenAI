@@ -58,6 +58,7 @@ export interface IDashboardService {
 }
 
 export class DashboardService implements IDashboardService {
+  userId: number;
   private projectService: IProjectService;
   private dashboardItemRepository: IDashboardItemRepository;
   private dashboardRepository: IDashboardRepository;
@@ -129,20 +130,26 @@ export class DashboardService implements IDashboardService {
     const project = await this.projectService.getCurrentProject();
     const existingDashboard = await this.dashboardRepository.findOneBy({
       projectId: project.id,
+      userId: this.projectService.userId
     });
     if (existingDashboard) return existingDashboard;
     // only support one dashboard for oss
     return await this.dashboardRepository.createOne({
       name: 'Dashboard',
       projectId: project.id,
+      userId: this.projectService.userId
     });
   }
 
   public async getCurrentDashboard(): Promise<Dashboard> {
     const project = await this.projectService.getCurrentProject();
-    const dashboard = await this.dashboardRepository.findOneBy({
+    let dashboard = await this.dashboardRepository.findOneBy({
       projectId: project.id,
+      userId: this.projectService.userId
     });
+    if(!dashboard) {
+      dashboard = await this.initDashboard();
+    }
     return { ...dashboard };
   }
 
