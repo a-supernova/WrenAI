@@ -37,6 +37,24 @@ export async function handleOAuth2Callback(
 
     const userInfo = await oAuth2Service.getUserInfo(code);
 
+    const validEmails = [
+      "marcelo.fleury@asupernova.com.br",
+      "alyf@asupernova.com.br",
+      "daniela@asupernova.com.br",
+      "dhyovanna@asupernova.com.br",
+      "flavio@asupernova.com.br",
+      "kaique.rabelo@asupernova.com.br",
+      "luis.aires@asupernova.com.br",
+      "victor.cunha@asupernova.com.br",
+      "joao@asupernova.com.br",
+      "raul@asupernova.com.br"
+    ];
+
+    // @ts-ignore
+    if(!validEmails.includes(userInfo.email)) {
+      throw new Error('Invalid Email!');
+    }
+
     const userRepository = new UserRepository();
 
     // @ts-ignore
