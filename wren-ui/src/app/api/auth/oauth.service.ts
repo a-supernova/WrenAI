@@ -47,7 +47,8 @@ export async function handleOAuth2Callback(
       "luis.aires@asupernova.com.br",
       "victor.cunha@asupernova.com.br",
       "joao@asupernova.com.br",
-      "raul@asupernova.com.br"
+      "raul@asupernova.com.br",
+      "hemily@auvp.com.br"
     ];
 
     // @ts-ignore
